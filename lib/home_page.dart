@@ -1,6 +1,7 @@
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
 import 'package:speech_to_text/speech_to_text.dart';
+import 'package:voice_chat/api_services.dart';
 import 'package:voice_chat/chat_bubble.dart';
 
 class HomaPage extends StatefulWidget {
@@ -14,7 +15,14 @@ class _HomaPageState extends State<HomaPage> {
   SpeechToText speechToText = SpeechToText();
   var text = "hold the button and start speaking";
   var isListening = false;
-  var answer = '';
+  final List<ChatMessage> messages = [];
+
+  var scrollController = ScrollController();
+
+  scrollMethod(){
+    scrollController.animateTo(scrollController.position.maxScrollExtent, duration: Duration(milliseconds: 300), curve: Curves.easeOut);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,11 +54,19 @@ class _HomaPageState extends State<HomaPage> {
               }
             }
           },
-          onTapUp: (details) {
+          onTapUp: (details) async {
             setState(() {
               isListening = false;
             });
             speechToText.stop();
+
+            messages.add(ChatMessage(text: text, type: ChatMessageType.user));
+            var msg = await ApiServices.sendMessage(text);
+
+            setState(() {
+              messages.add(ChatMessage(text: msg, type: ChatMessageType.bot));
+            });
+
           },
           child: const CircleAvatar(
             radius: 30,
