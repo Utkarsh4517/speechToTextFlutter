@@ -1,6 +1,7 @@
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
 import 'package:speech_to_text/speech_to_text.dart';
+import 'package:voice_chat/chat_bubble.dart';
 
 class HomaPage extends StatefulWidget {
   const HomaPage({super.key});
@@ -81,14 +82,25 @@ class _HomaPageState extends State<HomaPage> {
               ),
               // black container for chatgpt
               Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 12,
+                ),
                 height: 600,
                 width: 350,
                 decoration: BoxDecoration(
                   color: Colors.black87,
                   borderRadius: BorderRadius.circular(16),
                 ),
-                child: SingleChildScrollView(
-                  child: Column(),
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: 5,
+                  itemBuilder: (BuildContext context, int index) {
+                    return chatBubble(
+                      chattext: "Hey, How are you doing?",
+                      type: ChatMessageType.user,
+                    );
+                  },
                 ),
               ),
               const Text(
@@ -102,31 +114,39 @@ class _HomaPageState extends State<HomaPage> {
     );
   }
 
-  Widget ChatBubble() {
+  Widget chatBubble({required chattext, required ChatMessageType type}) {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const CircleAvatar(
-          backgroundColor: Colors.black87,
-          child: Icon(Icons.person, color: Colors.white,),
-        ),
-        const SizedBox(width: 12,),
-        Container(
-          padding: const EdgeInsets.all(12),
-          margin: const EdgeInsets.only(bottom: 8),
-          decoration: const BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.only(
-              topRight: Radius.circular(12),
-              bottomRight: Radius.circular(12),
-              bottomLeft: Radius.circular(12),
-            ),
+          backgroundColor: Colors.white,
+          child: Icon(
+            Icons.person,
+            color: Colors.black87,
           ),
-          child: const Text(
-            "Hey, How are you",
-            style: TextStyle(
+        ),
+        const SizedBox(
+          width: 12,
+        ),
+        Expanded(
+          child: Container(
+            padding: const EdgeInsets.all(12),
+            margin: const EdgeInsets.only(bottom: 8),
+            decoration: const BoxDecoration(
               color: Colors.white,
-              fontSize: 15,
-              fontWeight: FontWeight.w400,
+              borderRadius: BorderRadius.only(
+                topRight: Radius.circular(12),
+                bottomRight: Radius.circular(12),
+                bottomLeft: Radius.circular(12),
+              ),
+            ),
+            child:  Text(
+              chattext,
+              style: const TextStyle(
+                color: Colors.black87,
+                fontSize: 15,
+                fontWeight: FontWeight.w400,
+              ),
             ),
           ),
         ),
