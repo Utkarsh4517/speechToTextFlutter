@@ -41,8 +41,7 @@ class _HomaPageState extends State<HomaPage> {
                     },
                   );
                 });
-                if (speechToText.isListening) {
-                }
+                if (speechToText.isListening) {}
               }
             }
           },
@@ -59,24 +58,79 @@ class _HomaPageState extends State<HomaPage> {
         ),
       ),
       appBar: AppBar(
-        title: const Text('Speech to Text'),
+        title: const Text('B R A H M A'),
         centerTitle: true,
       ),
-      body: Container(
-          alignment: Alignment.center,
-          padding: const EdgeInsets.all(20),
+      body: Align(
+        alignment: const AlignmentDirectional(0, -1),
+        child: SingleChildScrollView(
           child: Column(
             children: [
-              Text(
-                text,
-                style: const TextStyle(fontSize: 22),
+              const SizedBox(
+                height: 15,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  text,
+                  style: const TextStyle(fontSize: 22),
+                ),
               ),
               const SizedBox(
-                height: 170,
+                height: 15,
               ),
-              const Text('Hold the mic and then say!'),
+              // black container for chatgpt
+              Container(
+                height: 600,
+                width: 350,
+                decoration: BoxDecoration(
+                  color: Colors.black87,
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: SingleChildScrollView(
+                  child: Column(),
+                ),
+              ),
+              const Text(
+                "Developed by Utkarsh Shrivastava",
+                style: TextStyle(color: Colors.black87),
+              ),
             ],
-          )),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget ChatBubble() {
+    return Row(
+      children: [
+        const CircleAvatar(
+          backgroundColor: Colors.black87,
+          child: Icon(Icons.person, color: Colors.white,),
+        ),
+        const SizedBox(width: 12,),
+        Container(
+          padding: const EdgeInsets.all(12),
+          margin: const EdgeInsets.only(bottom: 8),
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.only(
+              topRight: Radius.circular(12),
+              bottomRight: Radius.circular(12),
+              bottomLeft: Radius.circular(12),
+            ),
+          ),
+          child: const Text(
+            "Hey, How are you",
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 15,
+              fontWeight: FontWeight.w400,
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
